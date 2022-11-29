@@ -1,5 +1,5 @@
 import os
-from decouple import config
+from decouple import config, Csv
 
 """
 Django settings for memosite project.
@@ -14,7 +14,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', cast=str, default='missing-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=str, default=False)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=str, default='localhost, 127.0.0.1')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='localhost, 127.0.0.1')
 
 ACCOUNT_ADAPTER = 'mood.adapter.DefaultOverrideAccountAdapter'
 
@@ -97,14 +96,14 @@ WSGI_APPLICATION = 'memosite.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', cast=str, default='missing-name'),
-        'HOST': config('DB_HOST', cast=str, default='missing-host'),
-        'PORT': config('DB_PORT', cast=int, default=0),
-        'USER': config('DB_USER', cast=str, default='missing-user'),
-        'PASSWORD': config('DB_PASS', cast=str, default='missing-pass'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': config('DB_NAME', cast=str, default='missing-name'),
+        # 'HOST': config('DB_HOST', cast=str, default='missing-host'),
+        # 'PORT': config('DB_PORT', cast=int, default=0),
+        # 'USER': config('DB_USER', cast=str, default='missing-user'),
+        # 'PASSWORD': config('DB_PASS', cast=str, default='missing-pass'),
     }
 }
 
@@ -143,9 +142,6 @@ USE_TZ = config('USE_TZ', cast=bool, default=False)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
-django_heroku.settings(locals())
